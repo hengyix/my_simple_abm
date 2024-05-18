@@ -1,48 +1,41 @@
-#Hengyi Xing
+# Hengyi Xing
 from numpy import random
 
 class Agent():
     def __init__(self):
-        agents = ['Agent'+str(num) for num in range(1,6)]
-        self.agents = agents
-    
+        self.agents = ['Agent' + str(num) for num in range(1, 6)] # 5 agents
+
     def init_loc(self, world):
         random.shuffle(world.locations)
-        init_loc = [{self.agents[i]:world.locations[i]} for i in range(0, 5)]
-        self.loc = init_loc
+        # use dictionary to map agents to locations
+        # random choice
+        self.loc = {self.agents[i]: world.locations[i] for i in range(5)}
         
     def move(self, world):
-        random.shuffle(world.vacant)
-        move_result = [{self.agents[i]:world.vacant[i]} for i in range(0, 5)]
-        self.loc= move_result
-        
+        for agent, location in self.loc.items():
+            random.shuffle(world.vacant)  
+            new_location = world.vacant[0]  # random choice
+            self.loc[agent] = new_location  # update location to avoid overlap
+            world.find_vacant()  # get new vacant spots
         
 class World():
     def __init__(self):
-        pass
+        grid = [(i, j) for i in range(10) for j in range(10)]
+        self.locations = grid # 10x10 grid
     
-    def build_grid(self):
-        locations = [(i,j) for i in range(0,10) for j in range(0,10)]
-        self.locations = locations
-        
-    def find_vacant(self, agent):
-        occupied_patch = []
-        for element in agent.loc:
-            occupied_patch.append(element.values())
-        world.occupied = occupied_patch
-        vacant_patch = [patch for patch in self.locations if patch not in self.occupied]
-        world.vacant = vacant_patch
-        
+    def find_vacant(self):
+        occupied_patch = list(self.agent.loc.values()) 
+        self.vacant = [loc for loc in self.locations if loc not in occupied_patch]
+
     def run(self, loop):
-        agent = Agent()
-        world.build_grid()
-        agent.init_loc(world)
-        print(f'Initial Setting: {agent.loc}')
-        world.find_vacant(agent)
-        print(f'Moving {loop} times here:')
-        for n in range(0, loop):            
-            agent.move(world)
-            print(agent.loc) 
+        self.agent = Agent()
+        self.agent.init_loc(self)
+        print('Initial Setting:', self.agent.loc)
+        self.find_vacant()
+        for n in range(loop):
+            self.agent.move(self)
+            print(f'Movement {n+1}:', self.agent.loc)
             
 world = World()
 world.run(5)
+
