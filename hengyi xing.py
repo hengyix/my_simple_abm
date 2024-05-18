@@ -29,7 +29,7 @@ class World():
 
     def run(self, loop):
         self.agent = Agent()
-        self.agent.init_loc(self)
+        self.agent.init_loc(self) # initialization
         print('Initial Setting:', self.agent.loc)
         self.find_vacant()
         for n in range(loop):
