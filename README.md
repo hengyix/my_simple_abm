@@ -7,8 +7,8 @@
 
 4. Create a loop
 
-Ask each agent in sequence to find an empty patch
-Move the agent to the empty patch
+    Ask each agent in sequence to find an empty patch
+    <br>Move the agent to the empty patch
 
 5. End
 
